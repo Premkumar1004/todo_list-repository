@@ -1,0 +1,153 @@
+library = {}   
+def add_book():
+    print("\n--- Add New Book ---")
+    book_id = input("Enter Book ID: ")
+
+    if book_id in library:
+        print("Book ID already exists! Try again.\n")
+        return
+
+    title = input("Enter Title: ")
+    author = input("Enter Author: ")
+    year = input("Enter Publication Year: ")
+    genre = input("Enter Genre: ")
+
+    library[book_id] = {
+        "title": title,
+        "author": author,
+        "year": year,
+        "genre": genre
+    }
+
+    print("Book added successfully!\n")
+def remove_book():
+    print("\n--- Remove Book ---")
+    book_id = input("Enter Book ID to remove: ")
+
+    if book_id in library:
+        del library[book_id]
+        print("Book removed successfully!\n")
+    else:
+        print("Book not found!\n")
+
+def search_books():
+    print("\n--- Search Books ---")
+    print("1. By Title")
+    print("2. By Author")
+    print("3. By Year")
+    print("4. By Genre")
+
+    choice = input("Enter choice: ")
+
+    keyword = input("Enter search keyword: ").lower()
+    print("\nSearch results:\n")
+
+    found = False
+    for book_id, info in library.items():
+
+        if choice == "1" and keyword in info["title"].lower():
+            print(book_id, info)
+            found = True
+        elif choice == "2" and keyword in info["author"].lower():
+            print(book_id, info)
+            found = True
+
+        elif choice == "3" and keyword in info["year"].lower():
+            print(book_id, info)
+            found = True
+
+        elif choice == "4" and keyword in info["genre"].lower():
+            print(book_id, info)
+            found = True
+
+    if not found:
+        print("No matching books found.\n")
+    print()
+
+def update_book():
+    print("\n--- Update Book Information ---")
+    book_id = input("Enter Book ID to update: ")
+
+    if book_id not in library:
+        print("Book ID not found!\n")
+        return
+    print ("1. Update Title")
+    print("2. Update Author")
+    print("3. Update Year")
+    print("4. Update Genre")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        library[book_id]["title"] = input("New Title: ")
+    elif choice == "2":
+        library[book_id]["author"] = input("New Author: ")
+    elif choice == "3":
+        library[book_id]["year"] = input("New Year: ")
+    elif choice == "4":
+        library[book_id]["genre"] = input("New Genre: ")
+    else:
+        print("Invalid choice!\n")
+        return
+
+    print("Book updated successfully!\n")
+
+def report_all_books():
+    print("\n--- Library Report: All Books ---\n")
+    if not library:
+        print("No books in library.\n")
+        return
+    for book_id, info in library.items():
+        print(f"{book_id} : {info}")
+    print()
+
+def statistics():
+    print("\n--- Library Statistics ---\n")
+
+    total_books = len(library)
+    print("Total Books:", total_books)
+
+    # Count books per genre using dictionaries only
+    genre_count = {}
+
+    for info in library.values():
+        genre = info["genre"]
+        if genre not in genre_count:
+            genre_count[genre] = 1
+        else:
+            genre_count[genre] += 1
+
+    print("\nBooks by Genre:")
+    for genre, count in genre_count.items():
+        print(f"{genre} : {count}")
+
+    print()
+while True:
+    print("===== PERSONAL LIBRARY MENU =====")
+    print("1. Add Book")
+    print("2. Remove Book")
+    print("3. Search Books")
+    print("4. Update Book Information")
+    print("5. Show All Books")
+    print("6. Show Statistics")
+    print("7. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_book()
+    elif choice == "2":
+        remove_book()
+    elif choice == "3":
+        search_books()
+    elif choice == "4":
+        update_book()
+    elif choice == "5":
+        report_all_books()
+    elif choice == "6":
+        statistics()
+    elif choice == "7":
+        print("Exiting program... Goodbye!")
+        break
+    else:
+        print("Invalid choice! Try again.\n")
